@@ -67,13 +67,18 @@ Features 特点
 
 想查看更多功能, 请访问官网Demo：http://www.admineap.com
 
+Deploy 部署使用
+=================
+**Eclipse下部署**
+
+请访问 [AdminEAP在Eclipse下的部署](http://code.admineap.com/blog/bc4d163c5d45ac86015d55e67d540005)
+
+**Intellij下部署**
+
+
 
 Donate 捐赠
 ==================
-if you support admineap, you can donate to me,thanks。
+If you support admineap, you can donate by the following channels , thanks。
 如果你想支持AdminEAP框架，保证AdminEAP框架持续运行，您可以通过以下渠道捐赠支持，请在捐赠时留言，捐赠者将优先获得技术支持。
 !["Donate To billJiang"](https://raw.githubusercontent.com/bill1012/AdminEAP/master/doc/images/donate.png "donate to billJiang")
-
-
-
-
