@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50141
 File Encoding         : 65001
 
-Date: 2017-03-17 16:00:04
+Date: 2017-04-11 17:28:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -166,7 +166,7 @@ CREATE TABLE `qrtz_scheduler_state` (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('schedulerFactoryBean', 'billJiang1489379109578', '1489571613398', '20000');
+INSERT INTO `qrtz_scheduler_state` VALUES ('schedulerFactoryBean', 'billJiang1491807995570', '1491902904665', '20000');
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -935,6 +935,7 @@ CREATE TABLE `tbl_user_avatar` (
 -- Records of tbl_user_avatar
 -- ----------------------------
 INSERT INTO `tbl_user_avatar` VALUES ('4028818458d40f4f0158d41667830006', '2016-12-06 20:23:07', null, '2016-12-11 16:42:17', '3', '1323232_1481445737480.jpg', '\\uploadPath\\avatar\\1323232_1481445737480.jpg', '4028818458d40f4f0158d4169f9d0007');
+INSERT INTO `tbl_user_avatar` VALUES ('402881885b27423c015b2744b1000000', '2017-04-01 10:07:44', null, '2017-04-01 10:07:44', '0', 'new_1491012464886.jpg', '\\uploadPath\\avatar\\new_1491012464886.jpg', '0');
 INSERT INTO `tbl_user_avatar` VALUES ('8a8a83295a845220015a847d3e3c0000', '2017-02-28 19:31:24', null, '2017-02-28 19:31:24', '0', '1234567765432_1488281484853.jpg', '\\uploadPath\\avatar\\1234567765432_1488281484853.jpg', '4028818458d40f4f0158d4108eb60001');
 INSERT INTO `tbl_user_avatar` VALUES ('8afa96f658f1071d0158f10892a80000', '2016-12-12 11:17:00', null, '2016-12-12 11:17:00', '0', 'new_1481512619938.jpg', '\\uploadPath\\avatar\\new_1481512619938.jpg', '0');
 INSERT INTO `tbl_user_avatar` VALUES ('8afa96f658f1071d0158f109333f0001', '2016-12-12 11:17:41', null, '2016-12-12 11:17:41', '0', 'new_1481512661820.jpg', '\\uploadPath\\avatar\\new_1481512661820.jpg', '0');

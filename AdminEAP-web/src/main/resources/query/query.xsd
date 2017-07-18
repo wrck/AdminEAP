@@ -3,7 +3,7 @@
 	xmlns:tns="http://www.example.org/query" elementFormDefault="qualified">
 	<annotation>
 		<documentation>
-			Query Schema, created by bill1012 in 盘锦 2015/1/16  modify in Beijing 2016/7/14
+			Query Schema, created by billJiang in 盘锦 2015/1/16  modify in Beijing 2016/7/14
 		</documentation>
 	</annotation>
 	<complexType name="callType">
@@ -109,27 +109,24 @@
 										</simpleType>
 									</attribute>
 									<attribute name="width" type="string"  default="50" />
-									<attribute name="dateFormat"  use="optional" default='yyyy-MM-dd'>
+									<attribute name="dateFormat"  use="optional" default='yyyy-mm-dd'>
 										<simpleType>
 											<restriction base="string">
-												<enumeration value="yyyy-MM-dd HH:mm:ss.S" />
-												<enumeration value="yyyy-MM-dd HH:mm:ss" />
-												<enumeration value="yyyy-MM-dd HH:mm" />
-												<enumeration value="yyyy-MM-dd HH" />
-												<enumeration value="yyyy-MM-dd" />
-												<enumeration value="yyyy-MM" />
-												<enumeration value="yyyy.MM.dd HH:mm:ss.S" />
-												<enumeration value="yyyy.MM.dd HH:mm:ss" />
-												<enumeration value="yyyy.MM.dd HH:mm" />
-												<enumeration value="yyyy.MM.dd HH" />
-												<enumeration value="yyyy.MM.dd" />
-												<enumeration value="yyyy.MM" />
-												<enumeration value="yyyy/MM/dd HH:mm:ss.S" />
-												<enumeration value="yyyy/MM/dd HH:mm:ss" />
-												<enumeration value="yyyy/MM/dd HH:mm" />
-												<enumeration value="yyyy/MM/dd HH" />
-												<enumeration value="yyyy/MM/dd" />
-												<enumeration value="yyyy/MM" />
+												<enumeration value="yyyy-mm-dd hh:ii:ss" />
+												<enumeration value="yyyy-mm-dd hh:ii" />
+												<enumeration value="yyyy-mm-dd hh" />
+												<enumeration value="yyyy-mm-dd" />
+												<enumeration value="yyyy-mm" />
+												<enumeration value="yyyy.mm.dd hh:ii:ss" />
+												<enumeration value="yyyy.mm.dd hh:ii" />
+												<enumeration value="yyyy.mm.dd hh" />
+												<enumeration value="yyyy.mm.dd" />
+												<enumeration value="yyyy.mm" />
+												<enumeration value="yyyy/mm/dd hh:ii:ss" />
+												<enumeration value="yyyy/mm/dd hh:ii" />
+												<enumeration value="yyyy/mm/dd hh" />
+												<enumeration value="yyyy/mm/dd" />
+												<enumeration value="yyyy/mm" />
 												<enumeration value="yyyy" />
 											</restriction>
 										</simpleType>

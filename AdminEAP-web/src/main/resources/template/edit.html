@@ -7,7 +7,7 @@
     <form id="${htmlPrefix}_form" name="${htmlPrefix}_form" class="form-horizontal">
         <input type="hidden" name="id">
         <input type="hidden" name="version">
-        <input type="hidden" name="createDateTime" data-flag="date" data-format="yyyy-MM-dd HH:mm:ss">
+        <input type="hidden" name="createDateTime" data-flag="date" data-format="yyyy-mm-dd hh:ii:ss">
         <input type="hidden" name="deleted" value="0">
         <input type='hidden' value="${r'${CSRFToken}'}" id='csrftoken'>
         <div class="box-body">
@@ -16,7 +16,7 @@
             <#list fields as field>
                 <#if field_index%colsNum=index>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">${field.labelName}<#if field.validateType?contains("notEmpty")><span style="color:red">*</span></#if></label>
+                    <label class="col-sm-3 control-label">${field.labelName}<#if field.validateType??&&field.validateType?contains("notEmpty")><span style="color:red">*</span></#if></label>
                     <div class="<#if field.tagType="datepicker">input-group </#if>col-sm-8">
                         <#if field.tagType="hidden">
                         <input type="hidden" id="${field.columnName}" name="${field.columnName}" >
@@ -24,7 +24,7 @@
                         <textarea name="${field.columnName}" id="${field.columnName}" placeholder="请填写${field.labelName}" class="form-control"></textarea>
                         <#elseif field.tagType="datepicker">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="text" placeholder="请填写${field.labelName}" name="${field.columnName}" id="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-MM-dd">
+                        <input type="text" placeholder="请填写${field.labelName}" name="${field.columnName}" id="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-mm-dd">
                         <#elseif field.tagType="dictSelector">
                         <select name="${field.columnName}" id="${field.columnName}" data-code="${field.dictCode}"  data-flag="dictSelector" data-placeholder="请选择${field.labelName}" class="form-control select2" style="width:100%" data-blank="true"></select>
                         <#elseif field.tagType="urlSelector">
@@ -46,8 +46,8 @@
                             </#if>
                         <#elseif field.tagType="icheck-radio">
                             <#if !field.dictCode??>
-                        <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="flat-red" value="1"> 是</label> &nbsp;
-                        <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="flat-red" value="0"> 否</label>
+                        <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="square-blue" value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="square-blue" value="0"> 否</label>
                             <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
                         <input type="icheck-radio" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
                             <#else>
@@ -55,7 +55,7 @@
                             </#if>
                         <#elseif field.tagType="checkbox">
                             <#if !field.dictCode??>
-                        <label class="control-label"> <input type="checkbox" name="${field.columnName}"lang=""  value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}" value="1"> 是</label> &nbsp;
                         <label class="control-label"> <input type="checkbox" name="${field.columnName}"  value="0"> 否</label>
                             <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
                         <input type="checkbox" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
@@ -63,9 +63,9 @@
                         <input type="checkbox" name="${field.columnName}" data-flag="dictSelector" data-code="${field.dictCode}">
                             </#if>
                         <#elseif field.tagType="icheck-checkbox">
-                            <#if field.dictCode=""||field.dictCode=null>
-                        <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="flat-red" value="1"> 是</label> &nbsp;
-                        <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="flat-red" value="0"> 否</label>
+                            <#if !field.dictCode??>
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="square-blue" value="1"> 是</label> &nbsp;
+                        <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="square-blue" value="0"> 否</label>
                             <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
                         <input type="icheck-checkbox" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
                              <#else>
@@ -125,7 +125,7 @@
             },
             fields : {
             <#list fields as field>
-            <#if field.validateType!="">
+            <#if field.validateType??&&field.validateType!="">
                 "${field.columnName}":{
                     validators:{
                         ${field.validateType}

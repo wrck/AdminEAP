@@ -7,7 +7,7 @@
         <column key="name" header="姓名" width="150" operator="like" allowSort="true"/>
         <column key="code" header="编码" width="150"/>
         <column key="gender" header="性别" width="150"/>
-        <column key="birthday" header="生日" classType="java.util.Date" operator="between" width="150" dateFormat="yyyy-MM-dd"/>
+        <column key="birthday" header="生日" classType="java.util.Date" operator="between" width="150" dateFormat="yyyy-mm-dd"/>
         <column key="nation.name" header="民族" width="150"/>
         <column key="education" header="学历" width="150"/>
         <column key="salary" header="工资" width="150"/>

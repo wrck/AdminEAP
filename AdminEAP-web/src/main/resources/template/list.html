@@ -16,7 +16,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <!-- /.box-header -->
-                <div class="dataTables_filter" id="searchDiv">
+                <div class="dataTables_filter" id="searchDiv" style="display: none">
                     <!--查询条件-->
                     <#list fields as field>
                         <#if field.isCondition="1">
@@ -28,12 +28,12 @@
                             <#elseif field.tagType="datepicker">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="search" placeholder="开始${field.labelName}" title="${field.labelName}" name="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-MM-dd">
+                        <input type="search" placeholder="开始${field.labelName}" title="${field.labelName}" name="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-mm-dd">
                     </div>
                     ~
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="search" placeholder="结束${field.labelName}" title="${field.labelName}" name="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-MM-dd">
+                        <input type="search" placeholder="结束${field.labelName}" title="${field.labelName}" name="${field.columnName}" data-flag="datepicker" class="form-control" data-format="yyyy-mm-dd">
                     </div>
                              <#elseif field.tagType="dictSelector">
                     <select name="${field.columnName}" id="${field.columnName}" title="${field.labelName}" data-flag="dictSelector" data-code="${field.dictCode}" data-placeholder="请选择${field.labelName}" class="form-control select2" style="width: 120px;" data-blank="true"></select>
@@ -57,8 +57,8 @@
                          </#if>
                      <#elseif field.tagType="icheck-radio">
                          <#if !field.dictCode??>
-                     <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="flat-red" value="1"> 是</label> &nbsp;
-                     <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="flat-red" value="0"> 否</label>
+                     <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="square-green" value="1"> 是</label> &nbsp;
+                     <label class="control-label"> <input type="radio" name="${field.columnName}" data-flag="icheck" class="square-green" value="0"> 否</label>
                          <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
                      <input type="icheck-radio" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
                          <#else>
@@ -74,9 +74,9 @@
                      <input type="checkbox" name="${field.columnName}" data-flag="dictSelector" data-code="${field.dictCode}">
                          </#if>
                      <#elseif field.tagType="icheck-checkbox">
-                         <#if field.dictCode=""||field.dictCode=null>
-                     <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="flat-red" value="1"> 是</label> &nbsp;
-                     <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="flat-red" value="0"> 否</label>
+                         <#if !(field.dictCode)??>
+                     <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="square-green" value="1"> 是</label> &nbsp;
+                     <label class="control-label"> <input type="checkbox" name="${field.columnName}" data-flag="icheck" class="square-green" value="0"> 否</label>
                          <#elseif field.dictCode?starts_with("${r'${basePath}'}")>
                      <input type="icheck-checkbox" name="${field.columnName}" data-flag="urlSelector" data-src="${field.dictCode}">
                          <#else>
