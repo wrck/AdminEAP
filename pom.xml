@@ -17,7 +17,7 @@
         <repository>
             <id>nexus</id>
             <name>Nexus</name>
-            <url>http://10.122.127.16:8081/nexus/content/groups/public/</url>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -27,33 +27,7 @@
         </repository>
     </repositories>
 
-    <!--使用私服nexus作为maven插件仓库 -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus</id>
-            <name>Nexus</name>
-            <url>http://10.122.127.16:8081/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-    <!--使用nexus私服，上传私有插件的发布版本和快照版本 -->
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Nexus Releases Repository</name>
-            <url>http://10.122.127.16:8081/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>Nexus Snapshots Repository</name>
-            <url>http://10.122.127.16:8081/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    
     <properties>
         <spring-version>4.0.8.RELEASE</spring-version>
         <hibernate-version>4.3.6.Final</hibernate-version>
@@ -265,6 +239,11 @@
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>2.3.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.belerweb</groupId>
+                <artifactId>pinyin4j</artifactId>
+                <version>2.5.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
