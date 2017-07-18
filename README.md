@@ -15,7 +15,7 @@ AdminEAP相关技术文档：[http://code.admineap.com](http://code.admineap.com
 
 如果支持该项目也可通过下面微信和支付宝捐赠，捐赠者将优先获得技术支持。
 
-Update Logs 更新日志
+Change Logs 更新日志
 ===============
 - 2017-07-18     `BaseFile通用文件上传组件`
 - 2017-07-18     `bootstrap-datatimepicker时间选择器（时分秒）`
