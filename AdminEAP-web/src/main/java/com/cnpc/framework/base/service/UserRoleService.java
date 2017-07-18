@@ -6,4 +6,10 @@ public interface UserRoleService extends BaseService {
 
     Result delete(String ids);
 
+    void deleteAuthInRedis(String userId);
+
+    void setRoleForRegisterUser(String userId);
+
+
+
 }

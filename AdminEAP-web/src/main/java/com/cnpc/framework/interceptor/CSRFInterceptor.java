@@ -49,11 +49,11 @@ public class CSRFInterceptor extends HandlerInterceptorAdapter {
                     request.getSession().setAttribute("CSRFToken", csrftoken);
                     response.setContentType("application/json;charset=UTF-8");
                     PrintWriter out = response.getWriter();
-                    out.print("非法请求");
+                    out.print("<script>model.error('非法请求')</script>");
                     response.flushBuffer();
                     return false;
                 } else {
-                    // 刷新CSRFToken，返回错误码，用于ajax处理，可自定义
+                    // 刷新CSRFToken，返回错误码，用于ajax处理，可自定义 前端SUCCESS处理
                     String csrftoken = CSRFTokenUtil.generate(request);
                     request.getSession().setAttribute("CSRFToken", csrftoken);
                     ResultCode rc = CodeConstant.CSRF_ERROR;
@@ -99,6 +99,7 @@ public class CSRFInterceptor extends HandlerInterceptorAdapter {
                 if (StrUtil.isEmpty(xrq)) {
                     request.getSession().setAttribute("CSRFToken", CSRFTokenUtil.generate(request));
                 } else {
+                    //前端ERROR 处理
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("CSRFToken", CSRFTokenUtil.generate(request));
                     response.setContentType("application/json;charset=UTF-8");

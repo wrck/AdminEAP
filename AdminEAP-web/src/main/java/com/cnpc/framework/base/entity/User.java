@@ -69,9 +69,32 @@ public class User extends BaseEntity {
     @Column(name = "isSuperAdmin")
     private String isSuperAdmin;
 
+    @Header(name="部门ID")
+    @Column(name="dept_id")
+    private String deptId;
+
 
     @Transient
     private String avatarId;
+
+    @Transient
+    private int isSelected;
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public int getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
+    }
 
     public String getAvatarId() {
         return avatarId;

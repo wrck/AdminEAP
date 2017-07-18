@@ -42,7 +42,6 @@ public class MarkDownController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public Result save(MarkDown obj) {
-        //TODO set the real user id
         obj.setUserId(SecurityUtil.getUserId());
         if (StrUtil.isEmpty(obj.getId())) {
             obj.setCreateDateTime(new Date());

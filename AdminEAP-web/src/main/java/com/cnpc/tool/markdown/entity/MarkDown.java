@@ -2,6 +2,7 @@ package com.cnpc.tool.markdown.entity;
 
 import com.cnpc.framework.annotation.Header;
 import com.cnpc.framework.base.entity.BaseEntity;
+import com.cnpc.framework.base.entity.Dict;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
@@ -34,9 +35,64 @@ public class MarkDown extends BaseEntity {
     @Column(name="user_id")
     private String userId;
 
+    @Header(name="文章类别",joinClass = Dict.class)
+    @Column(name="type_id",length = 36)
+    private String typeId;
+
+    //冗余字段
+    @Header(name="文章列别名称")
+    @Column(name="type_name",length = 36)
+    private String typeName;
+
+    //摘要
+    @Header(name="文章摘要")
+    @Column(name="summary",length = 1000)
+    private String summary;
+
+    @Header(name="作者")
+    @Column(name="author")
+    private String author;
+
     @Header(name="编码")
     @Column(name="code")
     private String code;
+
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
     public String getCode() {
         return code;

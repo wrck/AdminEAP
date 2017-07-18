@@ -14,6 +14,7 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String index(HttpServletRequest request) {
+        //首页加载邮件消息 message/count  user/getAvatar
 
         return "main";
     }

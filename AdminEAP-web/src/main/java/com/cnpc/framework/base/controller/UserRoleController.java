@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.cnpc.framework.base.dao.RedisDao;
+import com.cnpc.framework.constant.RedisConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +22,11 @@ import com.cnpc.framework.base.service.UserRoleService;
 @RequestMapping(value = "/userrole")
 public class UserRoleController {
 
+
     @Resource
     private UserRoleService userRoleService;
+
+
 
     /**
      * 用户选择
@@ -48,8 +53,11 @@ public class UserRoleController {
     public Result save(String urlist) {
 
         List<UserRole> urs = JSON.parseArray(urlist, UserRole.class);
-        for (UserRole ur : urs)
+        for (UserRole ur : urs) {
             ur.setUpdateDateTime(new Date());
+            //清除redis缓存
+           userRoleService.deleteAuthInRedis(ur.getUser().getId());
+        }
         userRoleService.batchSave(urs);
         return new Result(true);
     }

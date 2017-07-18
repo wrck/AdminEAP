@@ -1,7 +1,11 @@
 package com.cnpc.framework.util;
 
 import com.cnpc.framework.base.entity.User;
+import com.cnpc.framework.base.service.UserService;
+import com.cnpc.framework.utils.SpringContextUtil;
 import org.apache.shiro.SecurityUtils;
+
+import javax.annotation.Resource;
 
 /**
  * Created by billJiang on 2017/2/6.
@@ -10,10 +14,10 @@ import org.apache.shiro.SecurityUtils;
 public class SecurityUtil {
 
     public static String getUserId(){
-       return getUser().getId();
+       return SecurityUtils.getSubject().getPrincipal().toString();
     }
 
     public static User getUser(){
-        return (User)SecurityUtils.getSubject().getPrincipal();
+        return (User)SecurityUtils.getSubject().getSession().getAttribute("user");
     }
 }

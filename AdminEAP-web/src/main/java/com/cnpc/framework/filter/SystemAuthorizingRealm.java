@@ -5,6 +5,8 @@ import com.cnpc.framework.base.service.FunctionService;
 import com.cnpc.framework.base.service.RoleService;
 import com.cnpc.framework.base.service.UserService;
 import com.cnpc.framework.utils.PropertiesUtil;
+import com.cnpc.framework.utils.StrUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -52,8 +54,10 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
             if(!password.equals(user.getPassword())&& isNeedPassword()){
                 throw new IncorrectCredentialsException();
             }
+            //这样前端页面可取到数据
+            SecurityUtils.getSubject().getSession().setAttribute("user",user);
             // 注意此处的返回值没有使用加盐方式,如需要加盐，可以在密码参数上加
-            return new SimpleAuthenticationInfo(user, token.getPassword(), token.getUsername());
+            return new SimpleAuthenticationInfo(user.getId(), token.getPassword(), token.getUsername());
         }
         throw new UnknownAccountException();
     }
@@ -67,13 +71,27 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
+        // 因为非正常退出，即没有显式调用 SecurityUtils.getSubject().logout()
+        // (可能是关闭浏览器，或超时)，但此时缓存依旧存在(principals)，所以会自己跑到授权方法里。
+        if (!SecurityUtils.getSubject().isAuthenticated()) {
+            doClearCache(principals);
+            SecurityUtils.getSubject().logout();
+            return null;
+        }
+
         if (principals == null) {
             throw new AuthorizationException("parameters principals is null");
         }
         //获取已认证的用户名（登录名）
-        String username=(String)super.getAvailablePrincipal(principals);
-        Set<String> roleCodes=roleService.getRoleCodeSet(username);
-        Set<String> functionCodes=functionService.getFunctionCodeSet(roleCodes);
+        String userId=(String)super.getAvailablePrincipal(principals);
+        if(StrUtil.isEmpty(userId)){
+            return null;
+        }
+        Set<String> roleCodes=roleService.getRoleCodeSet(userId);
+        //默认用户拥有所有权限
+        Set<String> functionCodes=functionService.getAllFunctionCode();
+       /* Set<String> functionCodes=functionService.getFunctionCodeSet(roleCodes);*/
         SimpleAuthorizationInfo authorizationInfo=new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(roleCodes);
         authorizationInfo.setStringPermissions(functionCodes);

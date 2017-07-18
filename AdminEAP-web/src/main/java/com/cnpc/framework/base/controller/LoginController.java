@@ -2,7 +2,9 @@ package com.cnpc.framework.base.controller;
 
 import com.cnpc.framework.base.entity.User;
 import com.cnpc.framework.base.pojo.ResultCode;
+import com.cnpc.framework.base.service.FunctionService;
 import com.cnpc.framework.base.service.RoleService;
+import com.cnpc.framework.base.service.UserRoleService;
 import com.cnpc.framework.base.service.UserService;
 import com.cnpc.framework.oauth.common.CustomOAuthService;
 import com.cnpc.framework.oauth.entity.OAuthUser;
@@ -47,6 +49,12 @@ public class LoginController {
     @Resource
     OAuthUserService oAuthUserService;
 
+    @Resource
+    private FunctionService functionService;
+
+    @Resource
+    private UserRoleService userRoleService;
+
 
     private final static String MAIN_PAGE = PropertiesUtil.getValue("page.main");
     private final static String LOGIN_PAGE = PropertiesUtil.getValue("page.login");
@@ -58,8 +66,9 @@ public class LoginController {
         //已经登录过，直接进入主页
         Subject subject = SecurityUtils.getSubject();
         if (subject != null && subject.isAuthenticated()) {
-            boolean isAuthorized = Boolean.valueOf(subject.getSession().getAttribute("isAuthorized").toString());
-            if (isAuthorized)
+            Object authorized = subject.getSession().getAttribute("isAuthorized");
+            //boolean isAuthorized = Boolean.valueOf(subject.getSession().getAttribute("isAuthorized").toString());
+            if (authorized != null && Boolean.valueOf(authorized.toString()))
                 return MAIN_PAGE;
         }
         String userName = request.getParameter("userName");
@@ -78,7 +87,11 @@ public class LoginController {
             subject.login(token);
             //通过认证
             if (subject.isAuthenticated()) {
-                Set<String> roles = roleService.getRoleCodeSet(userName);
+                String userId = subject.getPrincipal().toString();
+                Set<String> roles = roleService.getRoleCodeSet(userId);
+                Set<String> functions = functionService.getFunctionCodeSet(roles, userId);
+                //---------调用realm doGetAuthorizationInfo----------
+                boolean isPermitted = subject.isPermitted("user");
                 if (!roles.isEmpty()) {
                     subject.getSession().setAttribute("isAuthorized", true);
                     return MAIN_PAGE;
@@ -127,16 +140,32 @@ public class LoginController {
     }
 
 
-    @RequestMapping(value = "/logout")
-    private String doLogout(Model model) {
-        model.addAttribute("oAuthServices", oAuthServices.getAllOAuthServices());
+ /*   @RequestMapping(value = "/logout")
+    private String doLogout(HttpServletRequest request) {
+        request.setAttribute("oAuthServices", oAuthServices.getAllOAuthServices());
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return LOGIN_PAGE;
+    }*/
+
+    /**
+     * 注销调用此方法，需要注释request.setAttribute，因为会话删除后会出现问题，必须使用redirect:/login代替 LOGIN_PAGE
+     * 还有可以使用SystemLogoutFilter进行重定向
+     * 具体使用哪种方式，详见spring-shiro.xml的配置，本项目没使用SystemLogoutFilter
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/logout")
+    private String doLogout(HttpServletRequest request) {
+        //request.setAttribute("oAuthServices", oAuthServices.getAllOAuthServices());
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "redirect:/login";
     }
 
-    @RequestMapping(value="/register",method = RequestMethod.GET)
-    public String register(Model model){
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register(Model model) {
         model.addAttribute("oAuthInfo", new OAuthUser());
         return REGISTER_PAGE;
     }
@@ -163,8 +192,8 @@ public class LoginController {
             //如果已经过关联，直接登录
             User user = userService.get(User.class, oAuthUser.getUserId());
             return loginByAuth(user);
-        }catch (Exception e){
-            String msg = "连接"+type+"服务器异常. 错误信息为："+e.getMessage();
+        } catch (Exception e) {
+            String msg = "连接" + type + "服务器异常. 错误信息为：" + e.getMessage();
             model.addAttribute("message", new ResultCode("1", msg));
             LOGGER.error(msg);
             return LOGIN_PAGE;
@@ -174,29 +203,29 @@ public class LoginController {
 
     @RequestMapping(value = "/oauth/register", method = RequestMethod.POST)
     public String register_oauth(User user, @RequestParam(value = "oAuthType", required = false, defaultValue = "") String oAuthType,
-                           @RequestParam(value = "oAuthId", required = true, defaultValue = "") String oAuthId,
-                           HttpServletRequest request,Model model) {
+                                 @RequestParam(value = "oAuthId", required = true, defaultValue = "") String oAuthId,
+                                 HttpServletRequest request, Model model) {
         model.addAttribute("oAuthServices", oAuthServices.getAllOAuthServices());
         OAuthUser oAuthInfo = new OAuthUser();
         oAuthInfo.setoAuthId(oAuthId);
         oAuthInfo.setoAuthType(oAuthType);
         //保存用户
-        user.setPassword(EncryptUtil.getPassword(user.getPassword(),user.getLoginName()));
-        String userId=userService.save(user).toString();
+        user.setPassword(EncryptUtil.getPassword(user.getPassword(), user.getLoginName()));
+        String userId = userService.save(user).toString();
         //建立第三方账号关联
-        OAuthUser oAuthUser=oAuthUserService.findByOAuthTypeAndOAuthId(oAuthType,oAuthId);
-        if(oAuthUser==null&&!oAuthType.equals("-1")){
+        OAuthUser oAuthUser = oAuthUserService.findByOAuthTypeAndOAuthId(oAuthType, oAuthId);
+        if (oAuthUser == null && !oAuthType.equals("-1")) {
             oAuthInfo.setUserId(userId);
             oAuthUserService.save(oAuthInfo);
         }
+        //关联一般用户权限
+        userRoleService.setRoleForRegisterUser(userId);
         //关联成功后登陆
         return loginByAuth(user);
     }
 
 
-
-
-    public String loginByAuth(User user){
+    public String loginByAuth(User user) {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginName(), user.getPassword());
         token.setRememberMe(true);
         Subject subject = SecurityUtils.getSubject();
@@ -212,8 +241,9 @@ public class LoginController {
 
     /**
      * 校验当前登录名/邮箱的唯一性
+     *
      * @param loginName 登录名
-     * @param userId 用户ID（用户已经存在，改回原来的名字还是唯一的）
+     * @param userId    用户ID（用户已经存在，改回原来的名字还是唯一的）
      * @return
      */
     @RequestMapping(value = "/oauth/checkUnique", method = RequestMethod.POST)
@@ -225,9 +255,9 @@ public class LoginController {
         if (user == null) {
             map.put("valid", true);
         } else {
-            if(!StrUtil.isEmpty(userId)&&userId.equals(user.getLoginName())){
-                map.put("valid",true);
-            }else {
+            if (!StrUtil.isEmpty(userId) && userId.equals(user.getLoginName())) {
+                map.put("valid", true);
+            } else {
                 map.put("valid", false);
             }
         }
