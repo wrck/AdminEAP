@@ -1,9 +1,11 @@
 package com.cnpc.framework.query.entity;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.cnpc.framework.base.pojo.PageInfo;
+import com.cnpc.framework.utils.StrUtil;
 
 public class QueryCondition {
 
@@ -157,6 +159,20 @@ public class QueryCondition {
     public void setQueryConfig(QueryConfig queryConfig) {
 
         this.queryConfig = queryConfig;
+    }
+
+    public Map getConditionMap(){
+        Map<String,String> conditionValues=new HashMap<>();
+        for (Map<String, Object> condition : conditions) {
+            String key=condition.get("key").toString();
+            String value= condition.get("value")!=null?condition.get("value").toString():null;
+             if(conditionValues.containsKey(key)){
+                 conditionValues.put(key,conditionValues.get(key)+","+value);
+             }else{
+                 conditionValues.put(key,value);
+             }
+        }
+        return conditionValues;
     }
 
 }

@@ -1,26 +1,19 @@
 package com.cnpc.framework.base.dao.impl;
 
+import com.cnpc.framework.base.dao.BaseDao;
+import com.cnpc.framework.base.pojo.PageInfo;
+import org.hibernate.*;
+import org.hibernate.criterion.*;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.Type;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.hibernate.*;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
-import org.hibernate.type.Type;
-import org.springframework.stereotype.Repository;
-
-import com.cnpc.framework.base.dao.BaseDao;
-import com.cnpc.framework.base.pojo.PageInfo;
-import org.springframework.util.Assert;
 
 /**
  * @author bin
@@ -217,6 +210,25 @@ public class BaseDaoImpl implements BaseDao {
         return query.executeUpdate();
     }
 
+
+
+    public int executeHql(String hql,Map<String,Object> params){
+        Query query = this.getCurrentSession().createQuery(hql);
+        if (params != null && !params.isEmpty()) {
+            for (String key : params.keySet()) {
+                Object obj = params.get(key);
+                if (obj instanceof Collection<?>) {
+                    query.setParameterList(key, (Collection<?>) obj);
+                } else if (obj instanceof Object[]) {
+                    query.setParameterList(key, (Object[]) obj);
+                } else {
+                    query.setParameter(key, obj);
+                }
+            }
+        }
+        return query.executeUpdate();
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T getBySql(String sql) {
 
@@ -256,11 +268,7 @@ public class BaseDaoImpl implements BaseDao {
     public <T> List<T> findBySql(String sql, Map<String, Object> params, Class<T> clazz) {
 
         SQLQuery sqlQuery = this.getCurrentSession().createSQLQuery(sql);
-        if (params != null && !params.isEmpty()) {
-            for (String key : params.keySet()) {
-                sqlQuery.setParameter(key, params.get(key));
-            }
-        }
+        sqlQuery=getSqlQueryByMap(sqlQuery,params);
         sqlQuery.addEntity(clazz);
         return sqlQuery.list();
     }
@@ -277,11 +285,7 @@ public class BaseDaoImpl implements BaseDao {
     public <T> List<T> findBySql(String sql, Map<String, Object> params, int page, int rows, Class<T> clazz) {
 
         SQLQuery sqlQuery = this.getCurrentSession().createSQLQuery(sql);
-        if (params != null && !params.isEmpty()) {
-            for (String key : params.keySet()) {
-                sqlQuery.setParameter(key, params.get(key));
-            }
-        }
+        sqlQuery=getSqlQueryByMap(sqlQuery,params);
         sqlQuery.addEntity(clazz);
         return sqlQuery.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
     }
@@ -309,6 +313,23 @@ public class BaseDaoImpl implements BaseDao {
         return sqlQuery.executeUpdate();
     }
 
+    public int executeSql(String sql,Map<String,Object> params){
+        Query query = this.getCurrentSession().createSQLQuery(sql);
+        if (params != null && !params.isEmpty()) {
+            for (String key : params.keySet()) {
+                Object obj = params.get(key);
+                if (obj instanceof Collection<?>) {
+                    query.setParameterList(key, (Collection<?>) obj);
+                } else if (obj instanceof Object[]) {
+                    query.setParameterList(key, (Object[]) obj);
+                } else {
+                    query.setParameter(key, obj);
+                }
+            }
+        }
+        return query.executeUpdate();
+    }
+
     @SuppressWarnings("unchecked")
     public List<Map<String, Object>> findMapBySql(String sql) {
 
@@ -320,12 +341,24 @@ public class BaseDaoImpl implements BaseDao {
     public List<Map<String, Object>> findMapBySql(String sql, Map<String, Object> params) {
 
         SQLQuery sqlQuery = this.getCurrentSession().createSQLQuery(sql);
+        sqlQuery=getSqlQueryByMap(sqlQuery,params);
+        return sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+    }
+
+    public SQLQuery getSqlQueryByMap(SQLQuery sqlQuery,Map<String,Object> params){
         if (params != null && !params.isEmpty()) {
             for (String key : params.keySet()) {
-                sqlQuery.setParameter(key, params.get(key));
+                Object obj = params.get(key);
+                if (obj instanceof Collection<?>)
+                    sqlQuery.setParameterList(key, (Collection<?>) obj);
+                else if (obj instanceof Object[])
+                    sqlQuery.setParameterList(key, (Object[]) obj);
+                else
+                    sqlQuery.setParameter(key, obj);
+
             }
         }
-        return sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+        return sqlQuery;
     }
 
     @SuppressWarnings("unchecked")
@@ -339,12 +372,20 @@ public class BaseDaoImpl implements BaseDao {
     public List<Map<String, Object>> findMapBySql(String sql, Map<String, Object> params, int page, int rows) {
 
         SQLQuery sqlQuery = this.getCurrentSession().createSQLQuery(sql);
-        if (params != null && !params.isEmpty()) {
-            for (String key : params.keySet()) {
-                sqlQuery.setParameter(key, params.get(key));
-            }
-        }
+        sqlQuery=getSqlQueryByMap(sqlQuery,params);
         return sqlQuery.setFirstResult((page - 1) * rows).setMaxResults(rows).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+    }
+
+    public List findMapBySql(String sql, Map<String, Object> params, int page, int rows,Class clazz) {
+
+        SQLQuery sqlQuery = this.getCurrentSession().createSQLQuery(sql);
+        sqlQuery=getSqlQueryByMap(sqlQuery,params);
+        if(clazz==null){
+            sqlQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        }else{
+            sqlQuery.setResultTransformer(Transformers.aliasToBean(clazz));
+        }
+        return sqlQuery.setFirstResult((page - 1) * rows).setMaxResults(rows).list();
     }
 
     @Override
@@ -359,6 +400,16 @@ public class BaseDaoImpl implements BaseDao {
         query.setParameters(params, types);
         return query.list();
     }
+
+    @Override
+    public <T> List<T> find(String sql, Map<String,Object> params, Class<T> clazz) {
+
+        SQLQuery query = this.getCurrentSession().createSQLQuery(sql);
+        query=getSqlQueryByMap(query,params);
+        query.setResultTransformer(Transformers.aliasToBean(clazz));
+        return query.list();
+    }
+
 
     @Override
     public List findMapBySql(String sql, int firstResult, int maxResult, Object[] params, Type[] types, Class clazz) {

@@ -174,14 +174,34 @@ public class QueryUtil {
 
 
     /**
-     * 获取排序配置
+     * 获取排序配置,使用ID替换key 解决排序问题
      *
      * @param condition 查询条件（界面）
      * @param query     查询配置
      * @return 排序
      */
     private static String getSortInfo(QueryCondition condition, Query query) {
-        return !StrUtil.isEmpty(condition.getSortInfo()) ? condition.getSortInfo() : query.getOrder();
+        String sortInfo=!StrUtil.isEmpty(condition.getSortInfo()) ? condition.getSortInfo() : query.getOrder();
+        if(StrUtil.isEmpty(sortInfo))
+            return sortInfo;
+        String[] arr=sortInfo.split(",");
+        for (String str : arr) {
+            String[] keyArr=str.split(" ");
+            String key=keyArr[0].trim();
+            String id=getColumnIdByKey(query,key);
+            if(!StrUtil.isEmpty(id))
+            sortInfo=sortInfo.replace(key,id);
+        }
+        return sortInfo;
+    }
+
+    private static String getColumnIdByKey(Query query,String key){
+        for (Column column : query.getColumnList()) {
+            if(column.getKey().equals(key)){
+                return column.getId();
+            }
+        }
+        return key;
     }
 
     /**
@@ -240,7 +260,7 @@ public class QueryUtil {
 
 
     /**
-     * 不需要注入值得情况
+     * 不需要注入值的情况
      *
      * @param operator 操作符
      * @return 是否需要值
@@ -329,7 +349,7 @@ public class QueryUtil {
      */
     private static Map<String, Object> getValueForDate(ConditionOperator operator, Object value) throws Exception {
         Map<String, Object> map = new HashMap<>();
-        if (!value.toString().contains(":")) {
+        if (!value.toString().contains(":")||value.toString().contains("00:00:00")) {
             if (operator.equals(ConditionOperator.BETWEEN)) {
                 List list = (List) value;
                 if (list.get(1) != null) {

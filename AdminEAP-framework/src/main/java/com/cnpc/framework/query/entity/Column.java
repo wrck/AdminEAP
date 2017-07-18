@@ -215,7 +215,7 @@ public class Column {
         classType = "java.lang.String";
         operator = "eq";
         isServerCondition = false;
-        enableTooltip = true;
+        enableTooltip = false;
         isExport = true;
         isJustExport = false;
         subHeader = "#rspan";

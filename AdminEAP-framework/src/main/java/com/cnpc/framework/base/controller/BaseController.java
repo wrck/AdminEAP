@@ -61,7 +61,6 @@ public class BaseController {
     @RequestMapping("/getServerTime")
     @ResponseBody
     public Date getServerTime() {
-
         return new Date();
     }
 

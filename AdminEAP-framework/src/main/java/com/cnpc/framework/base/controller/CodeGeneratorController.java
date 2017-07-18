@@ -51,7 +51,7 @@ public class CodeGeneratorController {
     @ResponseBody
     public GenerateSetting getQuerySetting(String queryId, String className, HttpServletRequest request) throws ClassNotFoundException {
         GenerateSetting setting = new GenerateSetting();
-        String realPath = request.getSession().getServletContext().getRealPath("/");
+        String realPath = request.getRealPath("/");
         if(StrUtil.isEmpty(realPath)){
             System.out.println("realPath is null:请在开发环境中使用该功能");
             setting.setIsExistQuery("2");
@@ -249,7 +249,7 @@ public class CodeGeneratorController {
                 sb.append(" allowSort=\"false\"");
             }else if("datepicker".equals(fs.getTagType())){
                 sb.append(" allowSort=\"true\"");
-                sb.append(" dateFormat=\"yyyy-MM-dd\"");
+                sb.append(" dateFormat=\"yyyy-mm-dd\"");
                 sb.append(" operator=\"between\"");
             }else{
                 sb.append(" allowSort=\"true\"");

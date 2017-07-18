@@ -9,6 +9,8 @@ import com.cnpc.framework.annotation.ForeignShow;
 import com.cnpc.framework.annotation.Header;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 @Entity
 @Table(name = "tbl_function")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler", "fieldHandler" })
@@ -56,8 +58,29 @@ public class Function extends BaseEntity {
     @Transient
     private String parentName;
 
-    public String getParentName() {
+    @Transient
+    private List<FunctionFilter> fflist;
 
+    @Transient
+    private String roleId;
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public List<FunctionFilter> getFflist() {
+        return fflist;
+    }
+
+    public void setFflist(List<FunctionFilter> fflist) {
+        this.fflist = fflist;
+    }
+
+    public String getParentName() {
         return parentName;
     }
 

@@ -1,6 +1,11 @@
 package com.cnpc.framework.utils;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by cnpc on 2016/12/9.
@@ -129,5 +134,51 @@ public class FileUtil {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * 判断文件是否是图像文件
+     */
+    public static boolean isImage(String name) {
+        boolean valid = true;
+        try {
+            Image image = ImageIO.read(new File(name));
+            if (image == null) {
+                valid = false;
+                System.out.println("The file" + name + "could not be opened , it is not an image");
+            }
+        } catch (IOException ex) {
+            valid = false;
+            System.out.println("The file" + name + "could not be opened , an error occurred.");
+        }
+        return valid;
+    }
+
+
+    public static String generateZipFile(String basePath, String zipFileName, String... fileNames) {
+        byte[] buffer = new byte[1024];
+        String strZipName = basePath + zipFileName;
+        try {
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(strZipName));
+            for (String fileName : fileNames) {
+                File file = new File(basePath + fileName);
+                FileInputStream fis = new FileInputStream(file);
+                out.putNextEntry(new ZipEntry(file.getName()));
+                int len;
+                //读入需要下载的文件的内容，打包到zip文件
+
+                while ((len = fis.read(buffer)) > 0) {
+
+                    out.write(buffer, 0, len);
+
+                }
+                out.closeEntry();
+                fis.close();
+            }
+            out.close();
+            return strZipName;
+        }catch (IOException ex){
+            return null;
+        }
     }
 }

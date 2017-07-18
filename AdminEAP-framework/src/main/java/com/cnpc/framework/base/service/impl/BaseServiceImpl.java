@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.cnpc.framework.base.dao.RedisDao;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.type.Type;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class BaseServiceImpl implements BaseService {
 
     @Resource
     public BaseDao baseDao;
+
+    @Resource
+    public RedisDao redisDao;
 
     public <T> Serializable save(T obj) {
 
@@ -114,7 +118,7 @@ public class BaseServiceImpl implements BaseService {
         if (count == null) {
             return 0;
         }
-        return 0;
+        return count;
 
     }
 
@@ -126,6 +130,10 @@ public class BaseServiceImpl implements BaseService {
     public int executeHql(String hql) {
 
         return baseDao.executeHql(hql);
+    }
+
+    public int executeHql(String hql, Map<String, Object> params) {
+        return baseDao.executeHql(hql, params);
     }
 
     public <T> T getBySql(String sql) {
@@ -183,6 +191,10 @@ public class BaseServiceImpl implements BaseService {
         return baseDao.findMapBySql(sql, params, types, clazz);
     }
 
+    public <T> List<T> find(String sql, Map<String, Object> params, Class<T> clazz) {
+        return baseDao.find(sql, params, clazz);
+    }
+
     public List findMapBySql(String sql, String countStr, PageInfo pageInfo, Object[] params, Type[] types, Class clazz) {
 
         if (StrUtil.isEmpty(countStr))
@@ -212,6 +224,11 @@ public class BaseServiceImpl implements BaseService {
     public int executeSql(String sql) {
 
         return baseDao.executeSql(sql);
+    }
+
+    public int executeSql(String sql,Map<String,Object> params) {
+
+        return baseDao.executeSql(sql,params);
     }
 
     public <T> List<T> getListByCriteria(DetachedCriteria criteria, PageInfo page) {
@@ -249,7 +266,34 @@ public class BaseServiceImpl implements BaseService {
         return baseDao.findByCriteria(criteria);
 
     }
-    public Object getMaxByExample(Object exampleEntity, String maxProperty, String condition, boolean enableLike){
-        return baseDao.getMaxByExample(exampleEntity,maxProperty,condition,enableLike);
+
+    public Object getMaxByExample(Object exampleEntity, String maxProperty, String condition, boolean enableLike) {
+        return baseDao.getMaxByExample(exampleEntity, maxProperty, condition, enableLike);
+    }
+
+
+    //redis接口通用方法
+    public void deleteCacheByKey(String key) {
+        redisDao.delete(key);
+    }
+
+    public <T> boolean addCacheByKey(String key, T object) {
+        return redisDao.add(key, object);
+    }
+
+    public <T> boolean saveCacheByKey(String key, T object) {
+        return redisDao.save(key, object);
+    }
+
+    public String getCacheByKey(String key) {
+        return redisDao.get(key);
+    }
+
+    public <T> T getCacheByKey(String key, Class clazz) {
+        return redisDao.get(key, clazz);
+    }
+
+    public List findMapBySql(String sql, Map<String, Object> params, int page, int rows, Class clazz) {
+        return baseDao.findMapBySql(sql, params, page, rows, clazz);
     }
 }

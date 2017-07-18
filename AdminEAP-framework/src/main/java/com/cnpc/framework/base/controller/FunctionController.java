@@ -1,21 +1,19 @@
 package com.cnpc.framework.base.controller;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.cnpc.framework.base.entity.Function;
+import com.cnpc.framework.base.pojo.Result;
+import com.cnpc.framework.base.pojo.TreeNode;
+import com.cnpc.framework.base.service.FunctionService;
+import com.cnpc.framework.utils.StrUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cnpc.framework.base.entity.Function;
-import com.cnpc.framework.base.pojo.Result;
-import com.cnpc.framework.base.pojo.TreeNode;
-import com.cnpc.framework.base.service.FunctionService;
-import com.cnpc.framework.utils.StrUtil;
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/function")
@@ -40,6 +38,7 @@ public class FunctionController {
         String hql = "from Function order by levelCode asc";
         return functionService.find(hql.toString());
     }
+
 
     /**
      * getTreeData 构造bootstrap-treeview格式数据
@@ -69,7 +68,6 @@ public class FunctionController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public Result save(Function function) {
-
         function.setUpdateDateTime(new Date());
         functionService.saveOrUpdate(function);
         return new Result(true);
@@ -95,6 +93,9 @@ public class FunctionController {
     public List<Function> navigation(String pageUrl){
         return  functionService.getAll();
     }
+
+
+
 
 
 }

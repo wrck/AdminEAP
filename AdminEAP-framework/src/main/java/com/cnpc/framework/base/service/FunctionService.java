@@ -12,5 +12,9 @@ public interface FunctionService extends BaseService {
 
     List<Function> getAll();
 
-    Set<String> getFunctionCodeSet(Set<String> roleCodes);
+    Set<String> getFunctionCodeSet(Set<String> roleCodes,String userId);
+
+    Set<String> getAllFunctionCode();
+
+    List<Function> getFunctionList(Set<String> roleCodes,String userId);
 }

@@ -1,7 +1,9 @@
 package com.cnpc.framework.base.service;
 
+import com.cnpc.framework.base.entity.Role;
 import com.cnpc.framework.base.pojo.Result;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RoleService extends BaseService {
@@ -10,8 +12,10 @@ public interface RoleService extends BaseService {
 
     /**
      * 根据登录名，获取角色集合
-     * @param username 登录名
+     * @param userId 用户id
      * @return 角色编码集合
      */
-    Set<String> getRoleCodeSet(String username);
+    Set<String> getRoleCodeSet(String userId);
+
+    List<Role> getRoleList(String userId);
 }

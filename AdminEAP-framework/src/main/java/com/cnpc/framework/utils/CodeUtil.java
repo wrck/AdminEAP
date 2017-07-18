@@ -8,6 +8,7 @@ public class CodeUtil {
 	public static void main(String[] args) {
 
 		System.out.println(nextCode("000001", null, 6));
+		System.out.println(nextCode("","001",3));
 		System.out.println(nextCode("000001", "00000100009", 6));
 		System.out.println(nextCode("syc", "sya2016012", 7));
 		System.out.println(nextCode("syb", "sya2016030", 7));

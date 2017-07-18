@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by cnpc on 2016/10/22.
  */
-@ContextConfiguration(locations = { "classpath*:spring-hibernate.xml","classpath*:spring.xml" })
+@ContextConfiguration(locations = {"classpath*:spring.xml" })
 @TransactionConfiguration(defaultRollback = true)
 public class BaseTest extends AbstractTestNGSpringContextTests {
 
@@ -54,6 +54,8 @@ public class BaseTest extends AbstractTestNGSpringContextTests {
                 } else if (types[j] == Boolean.class) {
                     obj_list.add(Boolean.valueOf(objList.get(j)));
                     // TO DO 各种扩展
+                }else if(types[j]==Long.class){
+                    obj_list.add(Long.valueOf(objList.get(j)));
                 }
 
             }
@@ -61,4 +63,6 @@ public class BaseTest extends AbstractTestNGSpringContextTests {
         }
         return result;
     }
+
+
 }

@@ -47,4 +47,10 @@ public interface RoleFunctionService extends BaseService {
      * @return 执行结果
      */
     Result saveBatchFunctionFilter(String roleId, String functionId, List<FunctionFilter> functionFilterList);
+
+    /**
+     * 更改权限后，把绑定相关角色的权限缓存清除
+     * @param roleId
+     */
+    void deleteAuthInRedis(String roleId);
 }

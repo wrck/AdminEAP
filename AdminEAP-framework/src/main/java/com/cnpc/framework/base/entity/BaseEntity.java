@@ -1,19 +1,12 @@
 package com.cnpc.framework.base.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author bin
@@ -32,6 +25,7 @@ public abstract class BaseEntity implements Serializable {
     @GeneratedValue(generator = "id")
     @Column(name = "id", length = 36)
     protected String id;
+
 
     /**
      * 版本号

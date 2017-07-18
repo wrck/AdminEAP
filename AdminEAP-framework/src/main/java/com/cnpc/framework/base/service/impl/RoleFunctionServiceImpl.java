@@ -4,10 +4,13 @@ import com.cnpc.framework.base.entity.FunctionFilter;
 import com.cnpc.framework.base.entity.RoleFunction;
 import com.cnpc.framework.base.pojo.Result;
 import com.cnpc.framework.base.service.RoleFunctionService;
+import com.cnpc.framework.constant.RedisConstant;
 import com.cnpc.framework.utils.StrUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by billJiang on 2017/1/3.
@@ -16,6 +19,7 @@ import java.util.List;
  */
 @Service("roleFunctionService")
 public class RoleFunctionServiceImpl extends BaseServiceImpl implements RoleFunctionService {
+
     @Override
     public Result deleteRoleFunction(String id) {
         //delete functionfilter first
@@ -24,6 +28,9 @@ public class RoleFunctionServiceImpl extends BaseServiceImpl implements RoleFunc
         this.executeHql(hql);
         //delete rolefunction entity
         this.delete(roleFunction);
+        //-----------update redis-----------
+        this.deleteAuthInRedis(roleFunction.getRoleId());
+        //----------------------------------
         return new Result();
     }
 
@@ -33,6 +40,9 @@ public class RoleFunctionServiceImpl extends BaseServiceImpl implements RoleFunc
             deleteRoleFunction(rfobj.getId());
         }
        this.save(rfobj).toString();
+        //-----------update redis-----------
+        this.deleteAuthInRedis(rfobj.getRoleId());
+        //----------------------------------
        return saveBatchFunctionFilter(rfobj.getRoleId(),rfobj.getFunctionId(),rfobj.getFflist());
     }
 
@@ -41,6 +51,9 @@ public class RoleFunctionServiceImpl extends BaseServiceImpl implements RoleFunc
         RoleFunction roleFunction = this.get("from RoleFunction where roleId='" + roleId + "' and functionId='" + functionId + "'");
         if (roleFunction == null)
             return new RoleFunction();
+        //-----------update redis-----------
+        this.deleteAuthInRedis(roleId);
+        //----------------------------------
         return roleFunction;
     }
 
@@ -49,6 +62,9 @@ public class RoleFunctionServiceImpl extends BaseServiceImpl implements RoleFunc
         String hql="delete from RoleFunction where roleId='"+roleId+"'";
         this.executeHql(hql);
         this.batchSave(roleFunctionList);
+        //-----------update redis-----------
+        this.deleteAuthInRedis(roleId);
+        //----------------------------------
         return new Result();
     }
 
@@ -57,6 +73,23 @@ public class RoleFunctionServiceImpl extends BaseServiceImpl implements RoleFunc
         String hql="delete from FunctionFilter where roleId='"+roleId+"' and functionId='"+functionId+"'";
         this.executeHql(hql);
         this.batchSave(functionFilterList);
+        //-----------update redis-----------
+        this.deleteAuthInRedis(roleId);
+        //----------------------------------
         return new Result();
+    }
+
+    @Override
+    public void deleteAuthInRedis(String roleId) {
+        String sql="select distinct userId from tbl_user_role where roleId=:roleId";
+        Map<String,Object> params=new HashMap<>();
+        params.put("roleId",roleId);
+        List<Map<String,Object>> users=this.findMapBySql(sql,params);
+        for (Map<String, Object> user : users) {
+            String userId=user.get("userId").toString();
+            redisDao.delete(userId);
+            redisDao.delete(RedisConstant.ROLE_PRE+userId);
+            redisDao.delete(RedisConstant.PERMISSION_PRE+userId);
+        }
     }
 }
