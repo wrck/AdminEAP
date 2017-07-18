@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);
+@import url(../../font/fontcss.css);
 /*!
  *   AdminLTE v2.3.7
  *   Author: Almsaeed Studio
@@ -315,10 +315,10 @@ a:focus {
 }
 .content-header > h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
 }
 .content-header > h1 > small {
-  font-size: 15px;
+  font-size: 14px;
   display: inline-block;
   padding-left: 4px;
   font-weight: 300;
@@ -569,7 +569,7 @@ a:focus {
 .sidebar-menu .treeview-menu > li > a {
   padding: 5px 5px 5px 15px;
   display: block;
-  font-size: 14px;
+  font-size: 13px;
 }
 .sidebar-menu .treeview-menu > li > a > .fa,
 .sidebar-menu .treeview-menu > li > a > .glyphicon,
@@ -626,7 +626,7 @@ a:focus {
   }
   .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > a > span {
     top: 0;
-    margin-left: -3px;
+    margin-left: -2px;
     padding: 12px 5px 12px 20px;
     background-color: inherit;
   }
@@ -640,7 +640,7 @@ a:focus {
     display: none;
   }
   .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
-    top: 44px;
+    top: 42px;
     margin-left: 0;
   }
   .sidebar-mini.sidebar-collapse .main-sidebar .user-panel > .info,

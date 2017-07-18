@@ -354,6 +354,7 @@ if (!this.JSON) {
 
     if (typeof JSON.stringify !== 'function') {
         JSON.stringify = function (value, replacer, space) {
+            
 
 // The stringify method takes a value and an optional replacer, and an optional
 // space parameter, and returns a JSON text. The replacer can be a function

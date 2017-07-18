@@ -1078,6 +1078,7 @@ if (typeof jQuery === 'undefined') {
     var that = this
     this.$element.hide()
     this.backdrop(function () {
+      //alert(that.$body.find("div.modal"));
       if(that.$body.find("div.modal").length<2){
 	      that.$body.removeClass('modal-open')
 	      that.resetAdjustments() 
@@ -1159,8 +1160,11 @@ if (typeof jQuery === 'undefined') {
     })
     //dialog居中对齐
     // 是弹出框居中。。。  
-    var $modal_dialog = $(this.$element[0]).find('.modal-dialog');  
-    //获取可视窗口的高度  
+    var $modal_dialog = $(this.$element[0]).find('.modal-dialog');
+    //如果设置了顶部对齐高度，则不居中对齐
+    if($modal_dialog.find(".modal-body").data("margin")=="top")
+        return;
+    //获取可视窗口的高度
     var clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight;  
     //得到dialog的高度  
     var dialogHeight = $modal_dialog.height();

@@ -48,6 +48,7 @@
 }
 
 /*查询条件 日期*/
+
 .dataTables_filter .input-group{
     padding-right: 0px!important;
     padding-left:0px!important;
@@ -55,4 +56,9 @@
 .dataTables_filter .input-group input{
     margin-left:0px!important;
     width: 120px!important;
+}
+
+/*解决图片预览位置问题*/
+#kvFileinputModal .file-preview-other{
+    line-height: 1!important;
 }

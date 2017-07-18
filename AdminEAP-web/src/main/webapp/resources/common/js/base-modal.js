@@ -27,7 +27,7 @@
  * </div>
  */
 
-(function() {
+(function ($, window, document, undefined) {
     window.modals = window.modals||{};
     
     function _modal_structure(config, ok, cancel) {
@@ -152,6 +152,7 @@
         $('#modal-tips-div').modal('show');
 
         $('#modal-tips-div').on("hidden.bs.modal", function() {
+            modals.fixwyhtml5();
     	   _remove_modal();
 	   	   $(this).removeData("bs.modal");
 	   	});
@@ -232,7 +233,7 @@
      * @author bill qq:475572229 window
      ***************************************************************************/
     //{"backdrop":"static"}点击背景不会消失  
-    var _win_config={winId:'user-win',backdrop:true,keyboard:true};
+    var _win_config={winId:'user-win',backdrop:true,keyboard:true,width:900};
     //config={win:'userWin',top:'auto'/20,width:'900px',title:'新增用户'}
     modals.openWin=function(config){ 
     	var winId=config.winId||_win_config.winId;
@@ -241,11 +242,15 @@
     		this.showWin(winId);
     		return false;
     	}*/
+        config=$.extend({},_win_config,config);
     	this._create_modal(config);
-    	if(!config.url){
-    		this.error('未配置url');
-    	}
+        if(!config.url&&!config.loadContent){
+            this.error('未配置url');
+        }
     	$("#"+winId).modal({remote:config.url,backdrop:config.backdrop||_win_config.backdrop,keyboard:config.keyboard||_win_config.keyboard});
+        if(config.loadContent){
+            config.loadContent();
+        }
     	this.showWin(config.winId||_win_config.winId); 
     	//attach show event
     	 $("#"+winId).on('shown.bs.modal',function(){
@@ -262,10 +267,18 @@
     	   modals.closeWin(winId);  
     	   if(config.hideFunc)
     		   config.hideFunc.call(this);
-	   	   $(this).removeData("bs.modal"); 
+            modals.fixwyhtml5();
+	   	   $(this).removeData("bs.modal");
+
 	   	});
     }  
-    
+    //add by billjiang fix the wyhtml5 problem: wyhtml has the modal class,make the scrollbar hidden
+    modals.fixwyhtml5=function(){
+        if($(".wysihtml5-editor")){
+            $(document.body).removeClass('modal-open');
+            $(document.body).css("padding-right","0px");
+        }
+    }
     modals._create_modal=function(config){
     	 var modal = document.createElement('DIV');
          modal.id = config.winId;
@@ -320,4 +333,4 @@
     	 $("#"+winId).removeData("bs.modal");
     	//});
     }
-})();
+})(jQuery, window, document);

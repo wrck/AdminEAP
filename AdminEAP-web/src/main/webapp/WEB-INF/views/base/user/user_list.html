@@ -49,7 +49,7 @@
 		$(function() { 
 			//init table and fill data
 			userTable = new CommonTable("user_table", "user_list", "searchDiv");
-			
+
 			//button event
 			$('button[data-btn-type]').click(function() {
 				var action = $(this).attr('data-btn-type');
@@ -78,8 +78,8 @@
                        	winId:winId,
                        	title:'编辑用户【'+userTable.getSelectedRowData().name+'】',
                        	width:'900px',
-                       	url:basePath+"/user/edit?id="+rowId
-                       }); 
+                       	url:basePath+"/user/edit?id="+rowId,
+                       });
 				   break;
 				case 'delete':
 					if(!rowId){

@@ -51,6 +51,12 @@
             <div class="box box-primary">
                 <!-- /.box-header -->
                 <div class="box-body bg-info text-center">
+                    <div class="alert alert-info alert-dismissible text-left">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h4><i class="icon fa fa-check"></i> 更新内容 2017-7-9 17:30</h4>
+                        1、工作流模型； &nbsp;2、工作流设计；&nbsp;3、工作流实例；&nbsp;4、我的待办；&nbsp;5、我的已办；&nbsp;6、我的委托；&nbsp;7、工作流demo
+
+                    </div>
                     <div class="row">
                         <div class="col-md-6 text-right">
                             <img src="${basePath}/resources/common/images/admineap.png" width="80px" height="80px"
@@ -415,7 +421,7 @@
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box" data-url="/generator/setting">
-					        <span class="info-box-icon bg-green"><i class="fa fa-copy"></i></span>
+                                <span class="info-box-icon bg-green"><i class="fa fa-copy"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text text-blod">Code Generator</span>
                                     <span class="info-box-text">
@@ -433,8 +439,8 @@
                         <!-- fix for small devices only -->
                         <div class="clearfix visible-sm-block"></div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon"><i class="fa fa-clock-o"></i></span>
+                            <div class="info-box" data-url="/job/list">
+                                <span class="info-box-icon bg-green"><i class="fa fa-clock-o"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text text-blod">Quartz Job</span>
                                     <span class="info-box-text">
@@ -448,8 +454,8 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-					        <span class="info-box-icon"><i class="fa fa-align-right"></i></span>
+                            <div class="info-box" data-url="/message/list">
+                                <span class="info-box-icon bg-green"><i class="fa fa-align-right"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text text-blod">Message</span>
 										<span class="info-box-text">
@@ -493,15 +499,15 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon"><i class="fa fa-edit"></i></span>
+                            <div class="info-box" >
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-edit"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-blod">Workflow Definition</span>
+                                    <span class="info-box-text text-blod">Workflow Model</span>
                                     <span class="info-box-text">
-                                        工作流定义
+                                        工作流模型
                                     </span>
                                     <span class="info-box-text-sm">
-                                        可视化工作流节点、节点转换、岗位的配置
+                                        工作流设计器，在线web流程设计
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -509,15 +515,15 @@
                             <!-- /.info-box -->
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon"><i class="fa fa-edit"></i></span>
+                            <div class="info-box" >
+                                <span class="info-box-icon bg-yellow" ><i class="fa fa-edit"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-blod">Workflow Process</span>
+                                    <span class="info-box-text text-blod">Workflow Instance</span>
                                     <span class="info-box-text">
-                                        工作流审批处理
+                                        工作流实例
                                     </span>
                                     <span class="info-box-text-sm">
-                                        工作流审批、审批进度显示
+                                        当前运行流程列表，显示流程明细
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -529,14 +535,14 @@
                         <div class="clearfix visible-sm-block"></div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon"><i class="fa fa-edit"></i></span>
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-edit"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-blod">Workflow Todo/Done</span>
+                                    <span class="info-box-text text-blod">Workflow Task</span>
                                     <span class="info-box-text">
-                                        工作流待办已办
+                                        我的待办
                                     </span>
                                     <span class="info-box-text-sm">
-                                        工作流待办列表、已办列表查询与显示
+                                        我的待办列表、任务签收、办理
                                     </span>
                                 </div>
                             </div>
@@ -544,14 +550,14 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
-                                <span class="info-box-icon"><i class="fa fa-edit"></i></span>
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-edit"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-blod">Workflow API</span>
+                                    <span class="info-box-text text-blod">Workflow Delegate</span>
 										<span class="info-box-text">
-											工作流API
+											工作流委托
 										</span>
 										<span class="info-box-text-sm">
-											工作流接口文档，定义了接口的参数和返回值，以及使用场景
+											个人工作流委托，按照业务设置委托
 										</span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -604,8 +610,8 @@
                             <!-- /.info-box -->
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                                <span class="info-box-icon"><i class="fa fa-lock"></i></span>
+                            <div class="info-box" data-url="/markdown/preview/csrf">
+                                <span class="info-box-icon bg-green"><i class="fa fa-lock"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text text-blod">Against CSRF</span>
                                     <span class="info-box-text">
@@ -685,11 +691,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="info-box" data-flag="github" data-url="http://">
-					        <span class="info-box-icon bg-red"><i class="fa fa-github"></i></span>
+                                <span class="info-box-icon bg-red"><i class="fa fa-github"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text-sm">遵循和使用MIT License 开源协议，无论个人还是公司，都可以免费自由使用。</span>
                                     <span  class="info-box-text">
-                                      <iframe src="https://ghbtns.com/github-btn.html?user=bill1012&amp;repo=Java-AdminLTE&amp;type=star&amp;count=true" scrolling="0" width="115px" height="20px" frameborder="0"></iframe>
+                                      <iframe src="https://ghbtns.com/github-btn.html?user=bill1012&amp;repo=AdminEAP&amp;type=star&amp;count=true" scrolling="0" width="115px" height="20px" frameborder="0"></iframe>
                                         <!-- <iframe src="https://ghbtns.com/github-btn.html?user=bill1012&amp;repo=AdminEAP&amp;type=fork&amp;count=true" scrolling="0" width="138px" height="20px" frameborder="0"></iframe>
                                        <iframe src="https://ghbtns.com/github-btn.html?user=bill1012&amp;repo=AdminEAP&amp;type=watch&amp;count=true&amp;v=2" scrolling="0" width="120px" height="20px" frameborder="0"></iframe>-->
                                     </span>
@@ -704,16 +710,16 @@
                         </div>
                         <div class="col-md-6">
                             <div class="info-box" data-flag="contact">
-					            <span class="info-box-icon bg-aqua"><i class="fa fa-envelope"></i></span>
+                                <span class="info-box-icon bg-aqua"><i class="fa fa-envelope"></i></span>
                                 <div class="info-box-content">
                                     <span class="progress-description">
-                                        <i class="fa fa-envelope"></i>&nbsp; ：admin@admineap.com / jrn1012@petrochina.com.cn
+                                        <i class="fa fa-envelope"></i>&nbsp; ：admin@admineap.com
                                     </span>
                                      <span class="progress-description">
                                         <i class="fa fa-wechat"></i>&nbsp;：jrn1012
                                     </span>
                                     <span class="progress-description">
-                                        <i class="fa fa-qq"></i>&nbsp; ：475572229
+                                        <i class="fa fa-qq"></i>&nbsp; ：346837703(群)
                                     </span>
                                     <span class="progress-description">
                                         <i class="fa fa-lg fa-github"></i>&nbsp：<a href="https://github.com/bill1012/Java-AdminLTE">https://github.com/bill1012/Java-AdminLTE</a>

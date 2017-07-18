@@ -78,9 +78,13 @@
 					}
 			} 
 			roleTable = new CommonTable("role_table", "role_list", "searchDiv",role_config);
-			
+
+			var config={
+				lengthChange:false,
+				pagingType:'simple_numbers'
+			}
 			//init userrole table
-			userRoleTable=new CommonTable("userRole_table","userRole_selected_list","searchDiv_userRole");
+			userRoleTable=new CommonTable("userRole_table","userRole_selected_list","searchDiv_userRole",config);
 			  
 			//默认选中第一行 
 			setTimeout(function(){roleTable.selectFirstRow(true)},10);  
