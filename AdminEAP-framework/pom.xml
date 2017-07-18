@@ -137,13 +137,6 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
         </dependency>
-<<<<<<< HEAD
-        <!-- <dependency>
-             <groupId>com.sun.mail</groupId>
-             <artifactId>javax.mail</artifactId>
-         </dependency>-->
-=======
->>>>>>> origin/master
         <dependency>
             <groupId>org.scribe</groupId>
             <artifactId>scribe</artifactId>
@@ -171,7 +164,6 @@
 
 
     </dependencies>
-<<<<<<< HEAD
     <build>
         <plugins>
             <plugin>
@@ -189,6 +181,4 @@
         </plugins>
     </build>
 </project>
-=======
-</project>
->>>>>>> origin/master
+
