@@ -289,7 +289,7 @@ public class CodeGeneratorController {
         }
 
         //创建功能菜单
-        if (setting.getIsCreateFunction().equals("1")&&!StrUtil.isEmpty(setting.getParFuncCode())) {
+        if ("1".equals(setting.getIsCreateFunction())&&!StrUtil.isEmpty(setting.getParFuncCode())) {
             // 获取父节点对象
             String hql = "from Function where code='" + setting.getParFuncCode() + "'";
             Function parFunc = codeGeneratorService.get(hql);
