@@ -17,6 +17,8 @@ AdminEAP相关技术文档：[http://code.admineap.com](http://code.admineap.com
 
 Change Logs 更新日志
 ===============
+- 2017-07-19     `用户管理fnRender未定义的bug`
+- 2017-07-19     `代码生成器是否生成菜单的判断逻辑`
 - 2017-07-18     `BaseFile通用文件上传组件`
 - 2017-07-18     `bootstrap-datatimepicker时间选择器（时分秒）`
 - 2017-07-18     `集成redis`
