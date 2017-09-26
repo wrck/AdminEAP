@@ -1,3 +1,7 @@
+最新说明
+============
+工作流已开源，使用doc下的admineap_with_activiti.sql初始化数据库
+
 Introduction 简介
 ============
 
